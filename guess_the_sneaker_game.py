@@ -1,32 +1,20 @@
 import tkinter as tk
-from tkinter import messagebox
-from PIL import Image, ImageTk
 import random
 
-# List of (image_path, sneaker_name)
+# List of (emoji, sneaker_name)
 SNEAKERS = [
-    ("airmax.jpg", "Nike Air Max"),
-    ("jordan1.jpg", "Air Jordan 1"),
-    ("blazer.jpg", "Nike Blazer"),
-    # Add more (image_path, name) pairs as needed
+    ("👟", "Nike Air Max"),
+    ("🥾", "Timberland Boot"),
+    ("🥿", "Flat Shoe"),
+    ("👠", "High Heel"),
+    ("👡", "Sandal"),
+    ("👢", "Boot"),
 ]
 
-def crop_image(path):
-    img = Image.open(path)
-    w, h = img.size
-    # Crop to show only the middle part (adjust as needed)
-    left = w // 4
-    top = h // 4
-    right = left + w // 2
-    bottom = top + h // 2
-    cropped = img.crop((left, top, right, bottom))
-    return ImageTk.PhotoImage(cropped.resize((200, 200)))
-
 def new_round():
-    global current, img_tk
+    global current
     current = random.choice(SNEAKERS)
-    img_tk = crop_image(current[0])
-    img_label.config(image=img_tk)
+    emoji_label.config(text=current[0])
     guess_var.set("")
     result_label.config(text="")
 
@@ -42,8 +30,8 @@ def check_guess():
 root = tk.Tk()
 root.title("Guess the Sneaker")
 
-img_label = tk.Label(root)
-img_label.pack(pady=10)
+emoji_label = tk.Label(root, text="", font=("Arial", 100))
+emoji_label.pack(pady=10)
 
 guess_var = tk.StringVar()
 options = [name for _, name in SNEAKERS]
@@ -61,7 +49,6 @@ next_btn.pack(pady=5)
 
 # Start the first round
 current = None
-img_tk = None
 new_round()
 
 root.mainloop()
